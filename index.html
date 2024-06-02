@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gravity Elements</title>
+    <title>FakeEngine</title>
     <style>
-        .world > * {
+        .world>* {
             position: relative;
             overflow: hidden;
         }
@@ -17,6 +17,7 @@
             align-items: center;
             width: 100%;
         }
+
         .fake-engine {
             display: flex;
             flex-direction: column;
@@ -24,22 +25,22 @@
             align-items: center;
         }
 
-        .fake-engine > h1 {
+        .fake-engine>h1 {
             font-size: 4em;
             font-family: 'Liberation Serif', serif;
         }
 
-        .fake-engine-buttons > button {
+        .fake-engine-buttons>button {
             margin: .2em;
             font-size: 0.8em;
             padding: .1em 1em .1em 1em;
         }
-        
-        .fake-engine > input[type="text"] {
+
+        .fake-engine>input[type="text"] {
             margin: .2em;
-            width: 35em;
+            width: 26em;
         }
-        
+
         .fake-engine-buttons {
             display: flex;
             flex-direction: row;
@@ -55,12 +56,16 @@
             margin-top: 2em;
         }
 
+        #fake-engine-footer {
+            text-align: center;
+        }
+
         .fake-engine-counter {
             font-size: .8em;
         }
 
         .go-crazy {
-          animation: rotation 2s infinite linear, crazy 4s infinite linear;
+            animation: rotation 2s infinite linear, crazy 4s infinite linear;
         }
 
         .dialog {
@@ -75,61 +80,97 @@
             border: 1px solid #ddd;
             z-index: 10;
         }
+
         .dialog-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
-          display: none;
-          z-index: 9; /* Set slightly lower than dialog */
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 9;
         }
+
         .dialog-buttons {
             display: flex;
             flex-direction: row;
             justify-content: center;
         }
 
-        .dialog-buttons > button {
+        .dialog-buttons>button {
             margin: .5em;
             flex: 1;
         }
 
-        .link-title {
-            
+        .link-url {
+            color: green;
         }
+
+        .link-title {
+            font-weight: bolder;
+            font-size: 103%;
+        }
+
+        .link-block {
+            /*            position: absolute;*/
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+        }
+
+        .link-block>* {
+            margin-bottom: .1em;
+        }
+
         @keyframes rotation {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         @keyframes crazy {
-          0% {
-            transform: scale(0.8) rotate(0deg);
-            background-color: #ff0000;
-            border: 5px solid white;
-          }
-          25% {
-            transform: scale(1.2) rotate(360deg);
-            background-color: #00ff00;
-            border: 5px solid black;
-          }
-          50% {
-            transform: scale(0.5) skewX(30deg) skewY(-20deg);
-            background-color: #0000ff;
-            border: none;
-          }
-          75% {
-            transform: scale(1.5) translateX(50px) translateY(-20px);
-            background-color: #ffff00;
-            box-shadow: 0px 0px 10px #ff00ff;
-          }
-          100% {
-            transform: scale(0.8) rotate(-360deg);
-            background-color: #ff0000;
-            border: 5px solid white;
-          }
+            0% {
+                transform: scale(0.8) rotate(0deg);
+                background-color: #ff0000;
+                border: 5px solid white;
+            }
+
+            25% {
+                transform: scale(1.2) rotate(360deg);
+                background-color: #00ff00;
+                border: 5px solid black;
+            }
+
+            50% {
+                transform: scale(0.5) skewX(30deg) skewY(-20deg);
+                background-color: #0000ff;
+                border: none;
+            }
+
+            75% {
+                transform: scale(1.5) translateX(50px) translateY(-20px);
+                background-color: #ffff00;
+                box-shadow: 0px 0px 10px #ff00ff;
+            }
+
+            100% {
+                transform: scale(0.8) rotate(-360deg);
+                background-color: #ff0000;
+                border: 5px solid white;
+            }
+        }
+
+        #results {
+            flex-direction: column;
+        }
+
+        #results>.link-block {
+            margin-bottom: 1em;
         }
     </style>
 </head>
@@ -138,10 +179,11 @@
     <div class="dialog-overlay"></div>
     <dialog id="warning-dialog" class="dialog">
         <h2>Warning!</h2>
-        <p>FakeEngine is going to enter crazy mode. You might encounter <b>flashing images</b> and <b>moving objects</b>. <i>Continue?</i></p>
+        <p>FakeEngine is going to enter crazy mode. You might encounter <b>flashing images</b> and <b>moving
+                objects</b>. <i>Continue?</i></p>
         <div class="dialog-buttons">
             <button id="yes-button">Yes</button>
-            <button id="no-button">No</button>        
+            <button id="no-button">No</button>
         </div>
     </dialog>
     <div class="world" id="world">
@@ -149,236 +191,199 @@
             <h1>FakeEngine</h1>
             <input type="text" placeholder="Search the fake web...">
             <div class="fake-engine-buttons">
-                <button onclick="fall()">Search</button>
-                <button onclick="go_crazy()">I'm feeling crazy</button>
+                <button onclick="search_clicked()" id="search">Search</button>
+                <button onclick="go_crazy()" id="crazy">I'm feeling crazy</button>
             </div>
-            <div class="fake-engine-counter">
-                FakeEngine index: <span id="fake-engine-counter">1,000,000</span>+ pages
+            <div id="fake-engine-footer">
+                <div class="fake-engine-counter">
+                    FakeEngine index: <span id="fake-engine-counter">1,000,000</span>+ pages
+                </div>
+                <div class="fake-engine-footer">
+                    <small>&copy; 2069 theonlyasdk</small>
+                </div>
             </div>
-            <div class="fake-engine-footer">
-                <small>&copy; 2069 Nobody</small>
-            </div>
-            <div class="link-block">
-                <a href="#" class="link-title">Epic images!</a>
-            </div>
+            <div id="results"></div>
         </div>
     </div>
 </body>
 <script>
-const fake_engine_counter_element = document.getElementById("fake-engine-counter")
-let fake_engine_counter = 1500400
-let fake_engine_counting = true
+    const fake_engine = document.getElementById("fake-engine")
+    const fake_engine_counter_element = document.getElementById("fake-engine-counter")
+    const fake_engine_footer = document.getElementById("fake-engine-footer")
+    const fake_engine_results = document.getElementById("results")
 
-const world = document.getElementById("world");
+    let fake_engine_counter = 1500400
+    let fake_engine_counting = true
 
-const elements = [];
-const restitution = 0.2;
-const gravity = 0.0058;
-const maxAngularVelocity = 5; // Adjust for desired rotation speed
+    const world = document.getElementById("world");
+    const elements = [];
+    const restitution = 0.2;
+    const gravity = 0.0058;
+    const maxAngularVelocity = 5;
 
-const addExisting = (qs, leftPosition, clickHandler) => {
-    const element = document.querySelector(qs);
-    const rect = element.getBoundingClientRect();
+    let fake_search_data = [];
 
-    element.onclick = clickHandler;
-    element.style.width = 'fit-content';
+    const newLinkBlock = (title, desc, url, id) => {
+        let html = `
+            <div class="link-block" id="link-block-${id}">
+                <a href="#" class="link-title" onclick="fall()">${title}</a>
+                <span class="link-desc">${desc}</span>
+                <small class="link-url">${url}</small>
+            </div>
+        `
+        return new DOMParser()
+            .parseFromString(html, "text/html")
+            .body.firstChild;
+    }
 
-    elements.push({
-        position: { y: rect.top - 1, x: rect.left - 1 },
-        velocity: { y: 0, x: 0 },
-        element,
-        angle: 0,
-    });
+    const worldAddElement = (element, top, left, clickHandler) => {
+        element.onclick = clickHandler;
+        element.style.position = 'absolute';
 
-    return element;
-};
+        elements.push({
+            position: { y: top, x: left },
+            velocity: { y: 0, x: Math.random() * 2 - 1 },
+            element,
+            angle: 0,
+            gravity: Math.random() * 0.05,
+        });
 
-const addElement = (elementType, innerHTML, leftPosition, clickHandler) => {
-    const element = document.createElement(elementType);
+        return element;
+    };
 
-    element.innerHTML = innerHTML;
-    element.onclick = clickHandler;
-    element.style.width = 'fit-content';
+    const physics = () => {
+        for (let i = 0; i < elements.length; i++) {
+            const elementData = elements[i];
+            const element = elementData.element;
+            const position = elementData.position;
+            const velocity = elementData.velocity;
+            const fallVelocity = elementData.fallVelocity;
+            const angle = elementData.angle;
+            const elementHeight = elementData.element.offsetHeight;
+            const elementWidth = elementData.element.offsetWidth;
 
-    element.addEventListener("mousedown", (event) => {
-        offsetX = event.clientX - element.offsetLeft;
-        offsetY = event.clientY - element.offsetTop;
-    });
-
-    element.addEventListener("mousemove", (event) => {
-        if (!element.dragging) return;
-        element.style.left = event.clientX - offsetX + "px";
-        element.style.top = event.clientY - offsetY + "px";
-    });
-
-    element.addEventListener("mouseup", () => {
-        element.dragging = false;
-    });
-
-    element.style.left = leftPosition + "px"
-
-    elements.push({
-        position: { y: Math.random() * 2e+2, x: leftPosition },
-        velocity: { y: 0, x: 0 },
-        element,
-        angle: 0,
-        fallVelocity: 1000,
-    });
-
-    world.appendChild(element);
-
-    return element;
-};
-
-const process_frame = () => {
-
-    for (let i = 0; i < elements.length; i++) {
-        const elementData = elements[i];
-        const element = elementData.element;
-        const position = elementData.position;
-        const velocity = elementData.velocity;
-        const fallVelocity = elementData.fallVelocity;
-        const angle = elementData.angle;
-
-        const elementHeight = elementData.element.offsetHeight;
-        const elementWidth = elementData.element.offsetWidth;
-
-        position.y += velocity.y;
-
-        if (position.y + elementHeight > window.innerHeight) {
-            position.y = window.innerHeight - elementHeight;
-            velocity.y = -velocity.y * restitution;
-        }
-
-        element.style.top = position.y + "px";
-        velocity.y += gravity;
-
-        for (let j = i + 1; j < elements.length; j++) {
-            if (i !== j) {
-                const otherElementData = elements[j];
-                const otherPosition = otherElementData.position;
-                const otherHeight = otherElementData.height;
-
-                if (
-                    position.x < otherPosition.x + elementData.width &&
-                    position.x + elementWidth > otherPosition.x &&
-                    position.y < otherPosition.y + otherHeight &&
-                    position.y + elementHeight > otherPosition.y
-                ) {
-                    position.y = otherPosition.y - elementHeight;
-
-                    const mass1 = 1;
-                    const mass2 = 1;
-
-                    const velocityX1 =
-                        (velocity.x * mass1 +
-                            otherElementData.velocity.x * mass2 * (restitution + 1)) /
-                        (mass1 + mass2);
-                    const velocityX2 =
-                        (otherElementData.velocity.x * mass2 +
-                            velocity.x * mass1 * (restitution + 1)) /
-                        (mass1 + mass2);
-
-                    velocity.x = velocityX1;
-                    otherElementData.velocity.x = velocityX2;
-
-                    position.y -= 1;
-                    otherPosition.y += 1;
-
-                    elementData.angle += Math.random() * 10;
-                    otherElementData.angle -= Math.random() * 10;
-                }
+            if (position.x + elementWidth > window.innerWidth) {
+                position.x = window.innerWidth - elementWidth
+                velocity.x = -velocity.x * restitution;
             }
+
+            if (position.x < 0) {
+                position.x = 0;
+            }
+
+            position.y += velocity.y;
+            position.x += velocity.x;
+
+            if (position.y + elementHeight > window.innerHeight) {
+                position.y = window.innerHeight - elementHeight;
+                velocity.y = -velocity.y * restitution;
+            }
+
+            element.style.top = position.y + "px";
+            element.style.left = position.x + "px";
+
+            velocity.y += elementData.gravity;
+            velocity.x *= 0.999999999999999999999999999;
+
+            const angularVelocity = Math.min(Math.abs(velocity.y), maxAngularVelocity);
+            elementData.angle += (velocity.y > 0 ? -1 : 1) * angularVelocity;
+            elementData.angle = elementData.angle % 360;
+
+            if (elementData.angle < 0) {
+                elementData.angle += 360;
+            }
+            if (Math.abs(velocity.y) < Math.random() * 0.1) {
+                elementData.angle = Math.round(elementData.angle);
+            }
+
+            element.style.transform = `rotate(${angle}deg)`;
+        }
+    };
+
+    const fall = () => {
+        document.getElementById("search").onclick = () => { }
+        document.getElementById("crazy").onclick = () => { }
+
+        world.innerHTML += results.innerHTML;
+        results.remove();
+
+        for (let element of document.querySelectorAll(".world > *")) {
+            worldAddElement(element, element.offsetTop, element.offsetLeft, window.innerWidth - element.offsetWidth)
         }
 
-        // Update angle based on scaled velocity (capped for stability)
-        const angularVelocity = Math.min(Math.abs(velocity.y), maxAngularVelocity);
-        elementData.angle += (velocity.y > 0 ? -1 : 1) * angularVelocity;
+        setInterval(physics, 1);
+    }
 
-        // Ensure angle is always between -180 and 180 degrees
-        elementData.angle = elementData.angle % 360;
-
-        if (elementData.angle < 0) {
-            elementData.angle += 360;
+    const requestFullscreen = (element) => {
+        if (!element) {
+            return;
         }
 
-        // Gradually dampen rotation as velocity approaches zero
-        if (Math.abs(velocity.y) < 0.1) {
-            elementData.angle = Math.round(elementData.angle);
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.webkitRequestFullscreen) { // Webkit prefix for Safari
+            element.webkitRequestFullscreen();
+        } else if (element.mozRequestFullScreen) { // Mozilla prefix for Firefox
+            element.mozRequestFullScreen();
+        } else {
+            console.error("Fullscreen API not supported by your browser.");
         }
-
-        element.style.transform = `rotate(${angle}deg)`;
-    }
-};
-
-const requestFullscreen = (element) => {
-    if (!element) {
-        return; // Handle potential undefined element
     }
 
-    if (element.requestFullscreen) {
-        element.requestFullscreen();
-    } else if (element.webkitRequestFullscreen) { // Webkit prefix for Safari
-        element.webkitRequestFullscreen();
-    } else if (element.mozRequestFullScreen) { // Mozilla prefix for Firefox
-        element.mozRequestFullScreen();
-    } else {
-        console.error("Fullscreen API not supported by your browser.");
-    }
-}
+    let fake_index_timer = setInterval(() => {
+        if (fake_engine_counting) {
+            fake_engine_counter += 10
+            fake_engine_counter_element.innerHTML = fake_engine_counter.toLocaleString()
 
-const exitFullscreen = () => {
-    if (document.fullscreenElement) {
-        document.exitFullscreen();
-    } else if (document.webkitIsFullScreen) { // Webkit prefix for Safari
-        document.webkitExitFullscreen();
-    } else if (document.mozCancelFullScreen) { // Mozilla prefix for Firefox
-        document.mozCancelFullScreen();
-    } else {
-        console.error("Fullscreen API not supported by your browser.");
-    }
-}
-
-let fake_index_timer = setInterval(() => {
-    if (fake_engine_counting) {
-        fake_engine_counter += 10
-        fake_engine_counter_element.innerHTML = fake_engine_counter.toLocaleString()
-
-        if (fake_engine_counter > 1e+10) fake_engine_counting = false
-    }
-}, 50)
+            if (fake_engine_counter > 1e+10) fake_engine_counting = false
+        }
+    }, 50)
 
 
-const fall = () => {
-    world.style.position = "absolute";
+    const search_clicked = () => {
+        fake_engine_footer.style.display = 'none'
+        results.style.display = 'flex'
 
-    for (let element of document.querySelectorAll(".world > *")) {
-        addExisting(`#${element.id}`, Math.min(Math.max(Math.floor(Math.random() * 10e+2)), element.offsetWidth), window.innerWidth - element.offsetWidth)
+        for (let item of fake_search_data) {
+            results.appendChild(newLinkBlock(item.title, item.desc, item.url, world.childElementCount))
+        }
     }
 
-    let frame_timer = setInterval(process_frame, 1);
-}
+    async function fetchSearchData() {
+        try {
+            const response = await fetch("data/fake_index.json");
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const json = await response.json();
+            fake_search_data = json;
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    }
 
-const warningDialog = document.getElementById("warning-dialog");
-const yesButton = document.getElementById("yes-button");
-const noButton = document.getElementById("no-button");
-const dialogOverlay = document.querySelector(".dialog-overlay");
-yesButton.addEventListener("click", () => {
-    requestFullscreen(document.querySelector("html"));
-    document.querySelector("body").classList.add("go-crazy");
-    warningDialog.style.display = "none";
-    dialogOverlay.style.display = "none";
-});
+    const warningDialog = document.getElementById("warning-dialog");
+    const yesButton = document.getElementById("yes-button");
+    const noButton = document.getElementById("no-button");
+    const dialogOverlay = document.querySelector(".dialog-overlay");
+    yesButton.addEventListener("click", () => {
+        requestFullscreen(document.querySelector("html"));
+        document.querySelector("body").classList.add("go-crazy");
+        warningDialog.style.display = "none";
+        dialogOverlay.style.display = "none";
+    });
 
-noButton.addEventListener("click", () => {
-    warningDialog.style.display = "none";
-    dialogOverlay.style.display = "none";
-});
+    noButton.addEventListener("click", () => {
+        warningDialog.style.display = "none";
+        dialogOverlay.style.display = "none";
+    });
 
-const go_crazy = () => {
-    warningDialog.style.display = "block";
-    dialogOverlay.style.display = "block";
-}
+    const go_crazy = () => {
+        warningDialog.style.display = "block";
+        dialogOverlay.style.display = "block";
+    }
+
+    fetchSearchData()
 </script>
 
 </html>
