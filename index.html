@@ -7,73 +7,159 @@
     <title>Gravity Elements</title>
     <style>
         .world > * {
-        	position: relative;
-			overflow: hidden;
-		}
-		.world {
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			width: 100%;
-		}
-		.fake-engine {
-			display: flex;
-			flex-direction: column;
-			justify-self: space-between;
-			align-items: center;
-		}
+            position: relative;
+            overflow: hidden;
+        }
 
-		.fake-engine > h1 {
-			font-size: 4em;
-			font-family: 'Liberation Serif', serif;
-		}
+        .world {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+        .fake-engine {
+            display: flex;
+            flex-direction: column;
+            justify-self: space-between;
+            align-items: center;
+        }
 
-		.fake-engine-buttons > button {
-			margin: .2em;
-			font-size: 0.8em;
-			padding: .1em 1em .1em 1em;
-		}
-		
-		.fake-engine > input[type="text"] {
-			margin: .2em;
-			width: 35em;
-		}
-		
-		.fake-engine-buttons {
-			display: flex;
-			flex-direction: row;
-			justify-self: center;
-			align-items: center;
-			margin-bottom: 3em;
-		}
+        .fake-engine > h1 {
+            font-size: 4em;
+            font-family: 'Liberation Serif', serif;
+        }
 
-		.fake-engine-footer {
-			color: gray;
-			font-size: .8em;
-			text-decoration: underline;
-			margin-top: 2em;
-		}
+        .fake-engine-buttons > button {
+            margin: .2em;
+            font-size: 0.8em;
+            padding: .1em 1em .1em 1em;
+        }
+        
+        .fake-engine > input[type="text"] {
+            margin: .2em;
+            width: 35em;
+        }
+        
+        .fake-engine-buttons {
+            display: flex;
+            flex-direction: row;
+            justify-self: center;
+            align-items: center;
+            margin-bottom: 3em;
+        }
 
-		.fake-engine-counter {
-			font-size: .8em;
-		}
-	</style>
+        .fake-engine-footer {
+            color: gray;
+            font-size: .8em;
+            text-decoration: underline;
+            margin-top: 2em;
+        }
+
+        .fake-engine-counter {
+            font-size: .8em;
+        }
+
+        .go-crazy {
+          animation: rotation 2s infinite linear, crazy 4s infinite linear;
+        }
+
+        .dialog {
+            /* Style your dialog here (background, border, padding, etc.) */
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ddd;
+            z-index: 10;
+        }
+        .dialog-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+          display: none;
+          z-index: 9; /* Set slightly lower than dialog */
+        }
+        .dialog-buttons {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .dialog-buttons > button {
+            margin: .5em;
+            flex: 1;
+        }
+
+        .link-title {
+            
+        }
+        @keyframes rotation {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+
+        @keyframes crazy {
+          0% {
+            transform: scale(0.8) rotate(0deg);
+            background-color: #ff0000;
+            border: 5px solid white;
+          }
+          25% {
+            transform: scale(1.2) rotate(360deg);
+            background-color: #00ff00;
+            border: 5px solid black;
+          }
+          50% {
+            transform: scale(0.5) skewX(30deg) skewY(-20deg);
+            background-color: #0000ff;
+            border: none;
+          }
+          75% {
+            transform: scale(1.5) translateX(50px) translateY(-20px);
+            background-color: #ffff00;
+            box-shadow: 0px 0px 10px #ff00ff;
+          }
+          100% {
+            transform: scale(0.8) rotate(-360deg);
+            background-color: #ff0000;
+            border: 5px solid white;
+          }
+        }
+    </style>
 </head>
 
 <body>
+    <div class="dialog-overlay"></div>
+    <dialog id="warning-dialog" class="dialog">
+        <h2>Warning!</h2>
+        <p>FakeEngine is going to enter crazy mode. You might encounter <b>flashing images</b> and <b>moving objects</b>. <i>Continue?</i></p>
+        <div class="dialog-buttons">
+            <button id="yes-button">Yes</button>
+            <button id="no-button">No</button>        
+        </div>
+    </dialog>
     <div class="world" id="world">
         <div class="fake-engine" id="fake-engine">
-        	<h1>FakeEngine</h1>
+            <h1>FakeEngine</h1>
             <input type="text" placeholder="Search the fake web...">
             <div class="fake-engine-buttons">
-                <button>Search</button>
-                <button onclick="fall()">I'm feeling crazy</button>
+                <button onclick="fall()">Search</button>
+                <button onclick="go_crazy()">I'm feeling crazy</button>
             </div>
             <div class="fake-engine-counter">
                 FakeEngine index: <span id="fake-engine-counter">1,000,000</span>+ pages
             </div>
             <div class="fake-engine-footer">
                 <small>&copy; 2069 Nobody</small>
+            </div>
+            <div class="link-block">
+                <a href="#" class="link-title">Epic images!</a>
             </div>
         </div>
     </div>
@@ -225,6 +311,34 @@ const process_frame = () => {
     }
 };
 
+const requestFullscreen = (element) => {
+    if (!element) {
+        return; // Handle potential undefined element
+    }
+
+    if (element.requestFullscreen) {
+        element.requestFullscreen();
+    } else if (element.webkitRequestFullscreen) { // Webkit prefix for Safari
+        element.webkitRequestFullscreen();
+    } else if (element.mozRequestFullScreen) { // Mozilla prefix for Firefox
+        element.mozRequestFullScreen();
+    } else {
+        console.error("Fullscreen API not supported by your browser.");
+    }
+}
+
+const exitFullscreen = () => {
+    if (document.fullscreenElement) {
+        document.exitFullscreen();
+    } else if (document.webkitIsFullScreen) { // Webkit prefix for Safari
+        document.webkitExitFullscreen();
+    } else if (document.mozCancelFullScreen) { // Mozilla prefix for Firefox
+        document.mozCancelFullScreen();
+    } else {
+        console.error("Fullscreen API not supported by your browser.");
+    }
+}
+
 let fake_index_timer = setInterval(() => {
     if (fake_engine_counting) {
         fake_engine_counter += 10
@@ -243,6 +357,27 @@ const fall = () => {
     }
 
     let frame_timer = setInterval(process_frame, 1);
+}
+
+const warningDialog = document.getElementById("warning-dialog");
+const yesButton = document.getElementById("yes-button");
+const noButton = document.getElementById("no-button");
+const dialogOverlay = document.querySelector(".dialog-overlay");
+yesButton.addEventListener("click", () => {
+    requestFullscreen(document.querySelector("html"));
+    document.querySelector("body").classList.add("go-crazy");
+    warningDialog.style.display = "none";
+    dialogOverlay.style.display = "none";
+});
+
+noButton.addEventListener("click", () => {
+    warningDialog.style.display = "none";
+    dialogOverlay.style.display = "none";
+});
+
+const go_crazy = () => {
+    warningDialog.style.display = "block";
+    dialogOverlay.style.display = "block";
 }
 </script>
 
