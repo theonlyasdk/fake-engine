@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravity Elements</title>
+    <style>
+        .world > * {
+        	position: relative;
+			overflow: hidden;
+		}
+		.world {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 100%;
+		}
+		.fake-engine {
+			display: flex;
+			flex-direction: column;
+			justify-self: space-between;
+			align-items: center;
+		}
+
+		.fake-engine > h1 {
+			font-size: 4em;
+			font-family: 'Liberation Serif', serif;
+		}
+
+		.fake-engine-buttons > button {
+			margin: .2em;
+			font-size: 0.8em;
+			padding: .1em 1em .1em 1em;
+		}
+		
+		.fake-engine > input[type="text"] {
+			margin: .2em;
+			width: 35em;
+		}
+		
+		.fake-engine-buttons {
+			display: flex;
+			flex-direction: row;
+			justify-self: center;
+			align-items: center;
+			margin-bottom: 3em;
+		}
+
+		.fake-engine-footer {
+			color: gray;
+			font-size: .8em;
+			text-decoration: underline;
+			margin-top: 2em;
+		}
+
+		.fake-engine-counter {
+			font-size: .8em;
+		}
+	</style>
+</head>
+
+<body>
+    <div class="world" id="world">
+        <div class="fake-engine" id="fake-engine">
+        	<h1>FakeEngine</h1>
+            <input type="text" placeholder="Search the fake web...">
+            <div class="fake-engine-buttons">
+                <button>Search</button>
+                <button onclick="fall()">I'm feeling crazy</button>
+            </div>
+            <div class="fake-engine-counter">
+                FakeEngine index: <span id="fake-engine-counter">1,000,000</span>+ pages
+            </div>
+            <div class="fake-engine-footer">
+                <small>&copy; 2069 Nobody</small>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+const fake_engine_counter_element = document.getElementById("fake-engine-counter")
+let fake_engine_counter = 1500400
+let fake_engine_counting = true
+
+const world = document.getElementById("world");
+
+const elements = [];
+const restitution = 0.2;
+const gravity = 0.0058;
+const maxAngularVelocity = 5; // Adjust for desired rotation speed
+
+const addExisting = (qs, leftPosition, clickHandler) => {
+    const element = document.querySelector(qs);
+    const rect = element.getBoundingClientRect();
+
+    element.onclick = clickHandler;
+    element.style.width = 'fit-content';
+
+    elements.push({
+        position: { y: rect.top - 1, x: rect.left - 1 },
+        velocity: { y: 0, x: 0 },
+        element,
+        angle: 0,
+    });
+
+    return element;
+};
+
+const addElement = (elementType, innerHTML, leftPosition, clickHandler) => {
+    const element = document.createElement(elementType);
+
+    element.innerHTML = innerHTML;
+    element.onclick = clickHandler;
+    element.style.width = 'fit-content';
+
+    element.addEventListener("mousedown", (event) => {
+        offsetX = event.clientX - element.offsetLeft;
+        offsetY = event.clientY - element.offsetTop;
+    });
+
+    element.addEventListener("mousemove", (event) => {
+        if (!element.dragging) return;
+        element.style.left = event.clientX - offsetX + "px";
+        element.style.top = event.clientY - offsetY + "px";
+    });
+
+    element.addEventListener("mouseup", () => {
+        element.dragging = false;
+    });
+
+    element.style.left = leftPosition + "px"
+
+    elements.push({
+        position: { y: Math.random() * 2e+2, x: leftPosition },
+        velocity: { y: 0, x: 0 },
+        element,
+        angle: 0,
+        fallVelocity: 1000,
+    });
+
+    world.appendChild(element);
+
+    return element;
+};
+
+const process_frame = () => {
+
+    for (let i = 0; i < elements.length; i++) {
+        const elementData = elements[i];
+        const element = elementData.element;
+        const position = elementData.position;
+        const velocity = elementData.velocity;
+        const fallVelocity = elementData.fallVelocity;
+        const angle = elementData.angle;
+
+        const elementHeight = elementData.element.offsetHeight;
+        const elementWidth = elementData.element.offsetWidth;
+
+        position.y += velocity.y;
+
+        if (position.y + elementHeight > window.innerHeight) {
+            position.y = window.innerHeight - elementHeight;
+            velocity.y = -velocity.y * restitution;
+        }
+
+        element.style.top = position.y + "px";
+        velocity.y += gravity;
+
+        for (let j = i + 1; j < elements.length; j++) {
+            if (i !== j) {
+                const otherElementData = elements[j];
+                const otherPosition = otherElementData.position;
+                const otherHeight = otherElementData.height;
+
+                if (
+                    position.x < otherPosition.x + elementData.width &&
+                    position.x + elementWidth > otherPosition.x &&
+                    position.y < otherPosition.y + otherHeight &&
+                    position.y + elementHeight > otherPosition.y
+                ) {
+                    position.y = otherPosition.y - elementHeight;
+
+                    const mass1 = 1;
+                    const mass2 = 1;
+
+                    const velocityX1 =
+                        (velocity.x * mass1 +
+                            otherElementData.velocity.x * mass2 * (restitution + 1)) /
+                        (mass1 + mass2);
+                    const velocityX2 =
+                        (otherElementData.velocity.x * mass2 +
+                            velocity.x * mass1 * (restitution + 1)) /
+                        (mass1 + mass2);
+
+                    velocity.x = velocityX1;
+                    otherElementData.velocity.x = velocityX2;
+
+                    position.y -= 1;
+                    otherPosition.y += 1;
+
+                    elementData.angle += Math.random() * 10;
+                    otherElementData.angle -= Math.random() * 10;
+                }
+            }
+        }
+
+        // Update angle based on scaled velocity (capped for stability)
+        const angularVelocity = Math.min(Math.abs(velocity.y), maxAngularVelocity);
+        elementData.angle += (velocity.y > 0 ? -1 : 1) * angularVelocity;
+
+        // Ensure angle is always between -180 and 180 degrees
+        elementData.angle = elementData.angle % 360;
+
+        if (elementData.angle < 0) {
+            elementData.angle += 360;
+        }
+
+        // Gradually dampen rotation as velocity approaches zero
+        if (Math.abs(velocity.y) < 0.1) {
+            elementData.angle = Math.round(elementData.angle);
+        }
+
+        element.style.transform = `rotate(${angle}deg)`;
+    }
+};
+
+let fake_index_timer = setInterval(() => {
+    if (fake_engine_counting) {
+        fake_engine_counter += 10
+        fake_engine_counter_element.innerHTML = fake_engine_counter.toLocaleString()
+
+        if (fake_engine_counter > 1e+10) fake_engine_counting = false
+    }
+}, 50)
+
+
+const fall = () => {
+    world.style.position = "absolute";
+
+    for (let element of document.querySelectorAll(".world > *")) {
+        addExisting(`#${element.id}`, Math.min(Math.max(Math.floor(Math.random() * 10e+2)), element.offsetWidth), window.innerWidth - element.offsetWidth)
+    }
+
+    let frame_timer = setInterval(process_frame, 1);
+}
+</script>
+
+</html>
