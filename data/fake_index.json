@@ -1,10 +1,52 @@
-[{"title":"TechTrends","desc":"Discover the best deals on our website today!","url":"https://51.la/in/quam/fringilla/rhoncus.html"},
-{"title":"DigitalVibe","desc":"Shop now for exclusive discounts and promotions.","url":"http://bandcamp.com/nisi/at/nibh/in/hac.json"},
-{"title":"InnovateNow","desc":"Stay updated with the latest news and trends on our platform.","url":"http://ask.com/non/interdum/in/ante/vestibulum.json"},
-{"title":"TechSavvy","desc":"Join our community and connect with like-minded individuals.","url":"http://hatena.ne.jp/dictumst/morbi/vestibulum/velit/id/pretium/iaculis.json"},
-{"title":"DigitalVibe","desc":"Explore our wide range of products and services.","url":"http://shareasale.com/dignissim.xml"},
-{"title":"WebWorld","desc":"Stay updated with the latest news and trends on our platform.","url":"http://si.edu/mauris/ullamcorper/purus/sit/amet/nulla/quisque.aspx"},
-{"title":"WebWise","desc":"Discover the best deals on our website today!","url":"https://chronoengine.com/ipsum/primis/in/faucibus/orci/luctus/et.js"},
-{"title":"TechSavvy","desc":"Shop now for exclusive discounts and promotions.","url":"https://wix.com/lobortis/vel/dapibus.aspx"},
-{"title":"DigitalDose","desc":"Join our community and connect with like-minded individuals.","url":"http://pcworld.com/non/mi/integer/ac.jsp"},
-{"title":"WebWave","desc":"Join our community and connect with like-minded individuals.","url":"http://artisteer.com/sapien/non/mi/integer/ac/neque.html"}]
+[
+  {
+    "title": "How do you pronounce {}",
+    "desc": "Unsure how to say a word? Get the pronunciation right here!",
+    "url": "http://howtopronounce[].com"
+  },
+  {
+    "title": "What is the best recipe for {}",
+    "desc": "Discover delicious dishes and explore new culinary creations!",
+    "url": "http://bestrecipefor[].com"
+  },
+  {
+    "title": "What are the lyrics to {}",
+    "desc": "Sing along with your favorite songs! Find the complete lyrics here!",
+    "url": "http://lyricsforyour[].com"
+  },
+  {
+    "title": "Can I {}?",
+    "desc": "Is {} possible? Find out if {} can be done!",
+    "url": "http://cani[].com"
+  },
+  {
+    "title": "How to make {}",
+    "desc": "Learn step-by-step instructions for creating anything!",
+    "url": "http://howtomake[].com"
+  },
+  {
+    "title": "What are some interesting facts about {}",
+    "desc": "Uncover surprising and fascinating trivia about anything!",
+    "url": "http://interestingfactsabout[].com"
+  },
+  {
+    "title": "Where is the best place to buy {}",
+    "desc": "Find the perfect store or website to purchase what you need!",
+    "url": "http://bestplacetobuy[].com"
+  },
+  {
+    "title": "How to travel to {}",
+    "desc": "Plan your dream vacation and discover travel tips to {}!",
+    "url": "http://travelto[].com"
+  },
+  {
+    "title": "How to fix {}",
+    "desc": "Troubleshoot problems and find solutions to fix {}!",
+    "url": "http://howtoreallyfix[].com"
+  },
+  {
+    "title": "What are the benefits of {}",
+    "desc": "Learn about the positive aspects and advantages of {}!",
+    "url": "http://actualbenefitsof[].com"
+  }
+]
