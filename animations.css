@@ -1,48 +1,44 @@
-@keyframes rotation {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-}
-
 @keyframes crazy {
-    0% {
-        transform: scale(0.8) rotate(0deg);
+    0%, 100% {
+        transform: perspective(1000px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translate3d(0, 0, 0) scale(1);
         background-color: #ff0000;
         border: 5px solid white;
+        filter: hue-rotate(0deg) blur(0px) saturate(2);
     }
 
-    25% {
-        transform: scale(1.2) rotate(360deg);
+    20% {
+        transform: perspective(1000px) rotateX(360deg) rotateY(180deg) rotateZ(90deg) translate3d(100px, 50px, 200px) scale(1.5);
         background-color: #00ff00;
-        border: 5px dotted black;
+        border: 10px dotted black;
+        filter: hue-rotate(90deg) blur(3px) saturate(3);
     }
 
-    50% {
-        transform: scale(0.5) skewX(30deg) skewY(-20deg);
+    40% {
+        transform: perspective(1000px) rotateX(720deg) rotateY(360deg) rotateZ(180deg) translate3d(-100px, -50px, -200px) scale(0.5);
         background-color: #0000ff;
-        border: none;
+        border: 15px groove gold;
+        filter: hue-rotate(180deg) blur(5px) saturate(4);
     }
 
-    75% {
-        transform: scale(1.5) translateX(50px) translateY(-20px);
+    60% {
+        transform: perspective(1000px) rotateX(1080deg) rotateY(540deg) rotateZ(270deg) translate3d(200px, -100px, 100px) scale(2);
+        background-color: #ff00ff;
+        border: 15px groove #00ffbf;
+        filter: hue-rotate(270deg) blur(4px) saturate(5);
+    }
+
+    80% {
+        transform: perspective(1000px) rotateX(1440deg) rotateY(720deg) rotateZ(360deg) translate3d(-200px, 100px, -100px) scale(1.2);
         background-color: #ffff00;
-        box-shadow: 0px 0px 10px #ff00ff;
-    }
-
-    100% {
-        transform: scale(0.8) rotate(-360deg);
-        background-color: #ff0000;
-        border: 5px dashed white;
-        box-shadow: 2px 2px 10px black;        
+        box-shadow: 0 0 50px #ff00ff;
+        filter: hue-rotate(360deg) blur(2px) saturate(3);
     }
 }
 
 .go-crazy {
-    animation: rotation 2s infinite linear, crazy 4s infinite linear;
+    animation: crazy 4s infinite cubic-bezier(0.4, 0, 0.6, 1);
     border-style: dashed;
-    transition: all 200ms ease-out;
+    transition: all 100ms ease-out;
+    perspective: 1000px;
+    transform-style: preserve-3d;
 }

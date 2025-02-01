@@ -6,7 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FakeEngine</title>
     <link rel="stylesheet" type="text/css" href="animations.css">
+    <link rel="stylesheet" href="fireworks.css">
+    <link rel="stylesheet" href="style.css">
     <style>
+        @media screen and (min-width: 768px) {
+            body {
+                overflow: hidden !important;
+            }
+        }
+
         .world>* {
             position: relative;
             overflow: hidden;
@@ -19,7 +27,8 @@
             width: 100%;
         }
 
-        .fake-engine,.fake-form {
+        .fake-engine,
+        .fake-form {
             display: flex;
             flex-direction: column;
             justify-self: space-between;
@@ -66,7 +75,6 @@
         }
 
         .dialog {
-            /* Style your dialog here (background, border, padding, etc.) */
             display: none;
             position: fixed;
             top: 50%;
@@ -104,6 +112,10 @@
 
 <body>
     <div class="dialog-overlay"></div>
+    <div class="pyro" style="display: none;">
+        <div class="before"></div>
+        <div class="after"></div>
+    </div>
     <dialog id="warning-dialog" class="dialog">
         <h2>Warning!</h2>
         <p>FakeEngine is going to enter crazy mode. You might encounter <b>flashing images</b> and <b>moving
@@ -138,58 +150,69 @@
 <script src="lib/commons.js"></script>
 <!-- Logic for page -->
 <script>
-const fake_engine = fromId("fake-engine")
-const fake_engine_counter_element = fromId("fake-engine-counter")
-const fake_engine_footer = fromId("fake-engine-footer")
+    const fake_engine = fromId("fake-engine")
+    const fake_engine_counter_element = fromId("fake-engine-counter")
+    const fake_engine_footer = fromId("fake-engine-footer")
 
-let fake_engine_counter = 1500400
-let fake_engine_counting = true
+    let fake_engine_counter = 1500400
+    let fake_engine_counting = true
 
-const requestFullscreen = (element) => {
-    if (!element) {
-        return;
+    const requestFullscreen = (element) => {
+        if (!element) {
+            return;
+        }
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else {
+            console.error("Fullscreen API not supported by your browser.");
+        }
     }
-    if (element.requestFullscreen) {
-        element.requestFullscreen();
-    } else if (element.webkitRequestFullscreen) { // Webkit prefix for Safari
-        element.webkitRequestFullscreen();
-    } else if (element.mozRequestFullScreen) { // Mozilla prefix for Firefox
-        element.mozRequestFullScreen();
-    } else {
-        console.error("Fullscreen API not supported by your browser.");
+
+    let fake_index_timer = setInterval(() => {
+        if (fake_engine_counting) {
+            fake_engine_counter += 10
+            fake_engine_counter_element.innerHTML = fake_engine_counter.toLocaleString()
+
+            if (fake_engine_counter > 1e+10) fake_engine_counting = false
+        }
+    }, 50)
+
+    const warningDialog = fromId("warning-dialog");
+    const yesButton = fromId("yes-button");
+    const noButton = fromId("no-button");
+    const dialogOverlay = query(".dialog-overlay");
+    const pyro = query(".pyro");
+
+    yesButton.addEventListener("click", () => {
+        requestFullscreen(query("html"));
+        query("body").classList.add("go-crazy");
+        pyro.style.display = "block";
+        warningDialog.style.display = "none";
+        dialogOverlay.style.display = "none";
+    });
+
+    noButton.addEventListener("click", () => {
+        warningDialog.style.display = "none";
+        dialogOverlay.style.display = "none";
+    });
+
+    const go_crazy = () => {
+        warningDialog.style.display = "block";
+        dialogOverlay.style.display = "block";
     }
-}
 
-let fake_index_timer = setInterval(() => {
-    if (fake_engine_counting) {
-        fake_engine_counter += 10
-        fake_engine_counter_element.innerHTML = fake_engine_counter.toLocaleString()
-
-        if (fake_engine_counter > 1e+10) fake_engine_counting = false
+    const checkNewYear = () => {
+        const now = new Date();
+        if (now.getMonth() === 0 && now.getDate() === 1) {
+            pyro.style.display = "block";
+        }
     }
-}, 50)
 
-const warningDialog = fromId("warning-dialog");
-const yesButton = fromId("yes-button");
-const noButton = fromId("no-button");
-const dialogOverlay = query(".dialog-overlay");
-
-yesButton.addEventListener("click", () => {
-    requestFullscreen(query("html"));
-    query("body").classList.add("go-crazy");
-    warningDialog.style.display = "none";
-    dialogOverlay.style.display = "none";
-});
-
-noButton.addEventListener("click", () => {
-    warningDialog.style.display = "none";
-    dialogOverlay.style.display = "none";
-});
-
-const go_crazy = () => {
-    warningDialog.style.display = "block";
-    dialogOverlay.style.display = "block";
-}
+    checkNewYear();
 </script>
 
 </html>

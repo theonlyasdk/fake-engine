@@ -5,160 +5,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Results - FakeEngine</title>
+    <link rel="stylesheet" href="style.css">
     <style>
         h1 {
-        font-size: 3rem;
-        font-family: 'Liberation Serif', serif;
-    }
+            font-size: 3rem;
+            font-family: 'Liberation Serif', serif;
+        }
 
-    body {
-        padding: 0;
-        margin: 0;
-    }
+        body {
+            padding: 0;
+            margin: 0;
+        }
 
-    .results-world {
-        display: flex;
-        flex-direction: row;
-        padding-left: 1rem;
-        justify-content: center;
-        min-height: 100%;
-    }
+        .results-world {
+            display: flex;
+            flex-direction: row;
+            padding-left: 1rem;
+            justify-content: center;
+            min-height: 100%;
+        }
 
-    .sidebar-list>li>a {
-        text-decoration: none;
-        font-size: 0.9rem;
-    }
+        .sidebar-list>li>a {
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
 
-    .sidebar {
-        border-right: 2px black solid;
-        padding-right: 1rem;
-    }
+        .sidebar {
+            border-right: 2px black solid;
+            padding-right: 1rem;
+        }
 
-    hr {
-        transform: translateX(.3rem);
-        padding: 0;
-        border: 1px solid black;
-    }
+        hr {
+            transform: translateX(.3rem);
+            padding: 0;
+            border: 1px solid black;
+        }
 
-    a.selected {
-        font-weight: bold;
-        font-size: 1rem;
-    }
+        a.selected {
+            font-weight: bold;
+            font-size: 1rem;
+        }
 
-    .link-url {
-        color: green;
-        font-size: 86%;
-    }
+        .link-url {
+            color: green;
+            font-size: 86%;
+        }
 
-    .link-desc {
-    	font-size: 90%;
-    }
+        .link-desc {
+            font-size: 90%;
+        }
 
-    .link-title {
-        font-size: 105%;
-        color: #2200C1;
-    }
+        .link-title {
+            font-size: 105%;
+            color: #2200C1;
+        }
 
-    .link-title:visited {
-    	color: purple;
-    }
+        .link-title:visited {
+            color: purple;
+        }
 
-    .link-block {
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-    }
+        .link-block {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+        }
 
-    .link-block>* {
-        margin-bottom: .1em;
-    }
+        .link-block>* {
+            margin-bottom: .1em;
+        }
 
-    #results {
-    	position: relative;
-    	display: flex;
-        padding-top: 2rem;
-    	flex: 2;
-        flex-direction: column;
-        margin-left: 1rem;
-        height: 100vh;
-        overflow: scroll;
-    }
+        #results {
+            position: relative;
+            display: flex;
+            padding-top: 2rem;
+            flex: 2;
+            flex-direction: column;
+            margin-left: 1rem;
+            height: 100vh;
+            overflow: scroll;
+        }
 
-    #results>* {
-        margin-bottom: 1em;
-    }
-    .results-footer {
-    	margin: none;
-        color: gray;
-        font-size: .8em;
-        text-decoration: underline;
-        margin-top: .2rem;
-        text-align: center;
-        width: 100%;
-        padding-bottom: .04rem;
-    }
-    h1>a {
-    	text-decoration: none;
-    	color: black;
-    }
-    h1>a:hover {
-    	text-decoration: underline;
-    }
-    .search-details>small,.search-details>a {
-    	font-size: .8rem;
-    	padding-top: .2rem;
-    }
-    .search-details {
-    	display: flex;
-    	flex-direction: row;
-    	justify-content: space-between;
-    }
-    .search-box {
-    	display: flex;
-    	flex-direction: column;
-    	justify-content: space-between;
-    	width: 60%;
-    }
-    .search-inner {
-    	display: flex;
-    	flex-direction: row;
-    }
-    .search-inner>button {
-    	margin-left: .2em;
-    }
-	.search {
-    	flex: 1;
-    }    
-	@media (orientation: portrait) and (max-width: 768px) {
-	    .results-world {
-	        display: flex;
-	        flex-direction: column;
-	        padding-right: 1rem;
-	        justify-content: left;
-	        min-height: fit-content;
-	    }
+        #results>* {
+            margin-bottom: 1em;
+        }
 
-	    .search-box {
-	    	width: 100%;
-	    }
+        .results-footer {
+            margin: none;
+            color: gray;
+            font-size: .8em;
+            text-decoration: underline;
+            margin-top: .2rem;
+            text-align: center;
+            width: 100%;
+            padding-bottom: .04rem;
+        }
 
-	    .sidebar {
-	    	border: none;
-	    	border-bottom: 2px solid black;
-	    	width: 100%;
-	    	padding: .3em;
-	    }
+        h1>a {
+            text-decoration: none;
+            color: black;
+        }
 
-	    .vertical > hr {
-	    	display: none;
-	    }
+        h1>a:hover {
+            text-decoration: underline;
+        }
 
-	    .vertical > h1 {
-	    	width: 100%;
-	    	text-align: center;
-	    }
-	}
-</style>
+        .search-details>small,
+        .search-details>a {
+            font-size: .8rem;
+            padding-top: .2rem;
+        }
+
+        .search-details {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .search-box {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 60%;
+        }
+
+        .search-inner {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .search-inner>button {
+            margin-left: .2em;
+        }
+
+        .search {
+            flex: 1;
+        }
+
+        @media (orientation: portrait) and (max-width: 768px) {
+            .results-world {
+                display: flex;
+                flex-direction: column;
+                padding-right: 1rem;
+                justify-content: left;
+                min-height: fit-content;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .sidebar {
+                border: none;
+                border-bottom: 2px solid black;
+                width: 100%;
+                padding: .3em;
+            }
+
+            .vertical>hr {
+                display: none;
+            }
+
+            .vertical>h1 {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -179,7 +191,8 @@
         <div id="results">
             <form class="search-box" method="GET" action="results.html">
                 <div class="search-inner">
-                    <input type="text" class="search" placeholder="Search the fake web.." name="q" id="q" autocomplete="off">
+                    <input type="text" class="search" placeholder="Search the fake web.." name="q" id="q"
+                        autocomplete="off">
                     <button type="submit">Go!</button>
                 </div>
                 <div class="search-details">
@@ -195,197 +208,197 @@
 <script src="lib/commons.js"></script>
 <!-- Logic for search -->
 <script>
-const fake_link_url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-const fake_engine_footer = "<small id='results-footer' class='results-footer'>&copy; 2069 theonlyasdk</small>"
+    const fake_link_url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    const fake_engine_footer = "<small id='results-footer' class='results-footer'>&copy; 2069 theonlyasdk</small>"
 
-const newResultBlock = (title, desc, url, id) => {
-    let html = `
+    const newResultBlock = (title, desc, url, id) => {
+        let html = `
             <div class="link-block" id="link-block-${id}">
                 <a href="#?r=${id}" class="link-title" onclick="fall()">${title}</a>
                 <span class="link-desc">${desc}</span>
                 <small class="link-url">${url}</small>
             </div>
         `
-    return new DOMParser()
-        .parseFromString(html, "text/html")
-        .body.firstChild;
-}
+        return new DOMParser()
+            .parseFromString(html, "text/html")
+            .body.firstChild;
+    }
 
-const loadResultsFromUrl = async url => {
-    try {
-        const response = await fetch(url)
+    const loadResultsFromUrl = async url => {
+        try {
+            const response = await fetch(url)
 
-        if (!response.ok) {
-            throw new Error('Network response was not ok (while trying to fetch results)')
+            if (!response.ok) {
+                throw new Error('Network response was not ok (while trying to fetch results)')
+            }
+
+            const data = await response.json()
+            return data
+        } catch (error) {
+            console.error('Fetch error while trying to fetch results:', error)
+            return null
+        }
+    }
+
+    const loadQueriesFromUrl = async url => {
+        try {
+            const response = await fetch(url)
+            if (!response.ok) {
+                throw new Error('Network response was not ok (while trying to fetch results)')
+            }
+
+            const data = await response.text()
+            return data.split('\n')
+        } catch (error) {
+            console.error('Fetch error while trying to fetch results:', error)
+            return null
+        }
+    }
+
+    const flatten = (str) => {
+        return str.toLowerCase().replace(/[^0-9a-z]/g, '');
+    }
+
+    const getSearchTerm = (queries) => {
+        let i = parseInt(url_params.i ? url_params.i : 1);
+
+        switch (i) {
+            default:
+                return queries[Math.floor(Math.random() * queries.length)];
+            case 4:
+                return "fancy hot dogs";
+            case 5:
+                return "used cars";
+        }
+    }
+
+    const highlightSearchTerm = (text, searchTerm) => {
+        let escapedTerm = searchTerm;
+        if (searchTerm.startsWith('$')) {
+            escapedTerm = searchTerm.replace(/^\$/, '\\$');
+        } else {
+            escapedTerm = escapedTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
 
-        const data = await response.json()
-        return data
-    } catch (error) {
-        console.error('Fetch error while trying to fetch results:', error)
-        return null
-    }
-}
+        const regex = new RegExp(`(${escapedTerm})`, 'gi');
 
-const loadQueriesFromUrl = async url => {
-    try {
-        const response = await fetch(url)
-        if (!response.ok) {
-            throw new Error('Network response was not ok (while trying to fetch results)')
+        return text.replace(regex, '<b>$1</b>');
+    }
+
+    const propogateResults = async () => {
+        let results = await loadResultsFromUrl("data/fake_index.json")
+        let queries = await loadQueriesFromUrl("data/fake_queries.csv")
+        let results_container = query("#results")
+
+        shuffle(results);
+
+        if (results == undefined || results == null) return
+
+        for (let result of results) {
+            let q = url_params.q ? url_params.q : getSearchTerm(queries)
+            let title = highlightSearchTerm(result.title.replaceAll("{}", q), q)
+            let desc = highlightSearchTerm(result.desc.replaceAll("{}", q), q)
+            let url = highlightSearchTerm(result.url.replace("[]", flatten(q)), q)
+            let id = results_container.childElementCount
+
+            results_container.appendChild(newResultBlock(title, desc, url, id))
         }
 
-        const data = await response.text()
-        return data.split('\n')
-    } catch (error) {
-        console.error('Fetch error while trying to fetch results:', error)
-        return null
-    }
-}
-
-const flatten = (str) => {
-    return str.toLowerCase().replace(/[^0-9a-z]/g, '');
-}
-
-const getSearchTerm = (queries) => {
-    let i = parseInt(url_params.i ? url_params.i : 1);
-
-    switch (i) {
-        default:
-            return queries[Math.floor(Math.random() * queries.length)];
-        case 4:
-            return "fancy hot dogs";
-        case 5:
-        	return "used cars";
-    }
-}
-
-const highlightSearchTerm = (text, searchTerm) => {
-    let escapedTerm = searchTerm;
-    if (searchTerm.startsWith('$')) {
-        escapedTerm = searchTerm.replace(/^\$/, '\\$');
-    } else {
-        escapedTerm = escapedTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        results_container.innerHTML += fake_engine_footer
     }
 
-    const regex = new RegExp(`(${escapedTerm})`, 'gi');
-
-    return text.replace(regex, '<b>$1</b>');
-}
-
-const propogateResults = async () => {
-    let results = await loadResultsFromUrl("data/fake_index.json")
-    let queries = await loadQueriesFromUrl("data/fake_queries.csv")
-    let results_container = query("#results")
-
-    shuffle(results);
-
-    if (results == undefined || results == null) return
-
-    for (let result of results) {
-        let q = url_params.q ? url_params.q : getSearchTerm(queries)
-        let title = highlightSearchTerm(result.title.replaceAll("{}", q), q)
-        let desc = highlightSearchTerm(result.desc.replaceAll("{}", q), q)
-        let url = highlightSearchTerm(result.url.replace("[]", flatten(q)), q)
-        let id = results_container.childElementCount
-
-        results_container.appendChild(newResultBlock(title, desc, url, id))
+    const init = () => {
+        query(`#sidebar-item-${url_params.i ? url_params.i : 1}`).classList.add("selected");
+        fromId("q").value = url_params.q
     }
 
-    results_container.innerHTML += fake_engine_footer
-}
-
-const init = () => {
-    query(`#sidebar-item-${url_params.i ? url_params.i : 1}`).classList.add("selected");
-	fromId("q").value = url_params.q
-}
-
-init()
-propogateResults()
+    init()
+    propogateResults()
 </script>
 <!-- Logic for fall physics -->
 <script>
-const world = fromId("results");
-const elements = [];
-const restitution = 0.2;
-const gravity = 0.0058;
-const maxAngularVelocity = 5;
+    const world = fromId("results");
+    const elements = [];
+    const restitution = 0.2;
+    const gravity = 0.0058;
+    const maxAngularVelocity = 5;
 
-const worldAddElement = (element, top, left, clickHandler) => {
-    element.onclick = clickHandler;
-    element.style.position = 'relative';
-    element.style.width = element.id == "results-footer" ? 'fit-content' : element.style.width;
+    const worldAddElement = (element, top, left, clickHandler) => {
+        element.onclick = clickHandler;
+        element.style.position = 'relative';
+        element.style.width = element.id == "results-footer" ? 'fit-content' : element.style.width;
 
-    elements.push({
-        position: { y: top, x: left },
-        velocity: { y: 0, x: Math.random() * 2 - 1 },
-        element,
-        angle: 0,
-        gravity: Math.random() * 0.05,
-    });
+        elements.push({
+            position: { y: top, x: left },
+            velocity: { y: 0, x: Math.random() * 2 - 1 },
+            element,
+            angle: 0,
+            gravity: Math.random() * 0.05,
+        });
 
-    return element;
-};
+        return element;
+    };
 
-const physics = () => {
-    for (let i = 0; i < elements.length; i++) {
-        const elementData = elements[i];
-        const element = elementData.element;
-        const position = elementData.position;
-        const velocity = elementData.velocity;
-        const fallVelocity = elementData.fallVelocity;
-        const angle = elementData.angle;
-        const elementHeight = elementData.element.offsetHeight;
-        const elementWidth = elementData.element.offsetWidth;
+    const physics = () => {
+        for (let i = 0; i < elements.length; i++) {
+            const elementData = elements[i];
+            const element = elementData.element;
+            const position = elementData.position;
+            const velocity = elementData.velocity;
+            const fallVelocity = elementData.fallVelocity;
+            const angle = elementData.angle;
+            const elementHeight = elementData.element.offsetHeight;
+            const elementWidth = elementData.element.offsetWidth;
 
-        if (position.x + elementWidth > world.offsetWidth) {
-            position.x = world.offsetWidth - elementWidth
-            velocity.x = -velocity.x * restitution;
+            if (position.x + elementWidth > world.offsetWidth) {
+                position.x = world.offsetWidth - elementWidth
+                velocity.x = -velocity.x * restitution;
+            }
+
+            if (position.x < 0) {
+                position.x = 0;
+            }
+
+            position.y += velocity.y;
+            position.x += velocity.x;
+
+            if (position.y + elementHeight > window.innerHeight) {
+                position.y = window.innerHeight - elementHeight;
+                velocity.y = -velocity.y * restitution;
+            }
+
+            element.style.top = position.y + "px";
+            element.style.left = position.x + "px";
+
+            velocity.y += elementData.gravity;
+            velocity.x *= 0.999999999999999999999999999;
+
+            const angularVelocity = Math.min(Math.abs(velocity.y), maxAngularVelocity);
+            elementData.angle += (velocity.y > 0 ? -1 : 1) * angularVelocity;
+            elementData.angle = elementData.angle % 360;
+
+            if (elementData.angle < 0) {
+                elementData.angle += 360;
+            }
+            if (Math.abs(velocity.y) < Math.random() * 0.1) {
+                elementData.angle = Math.round(elementData.angle);
+            }
+
+            element.style.transform = `rotate(${angle}deg)`;
+        }
+    };
+
+    const fall = () => {
+        for (let element of document.querySelectorAll("#results > *")) {
+            worldAddElement(element, element.offsetTop, element.offsetLeft, window.innerWidth - element.offsetWidth)
         }
 
-        if (position.x < 0) {
-            position.x = 0;
+        setInterval(physics, 1);
+
+        for (let element of queryAll(".link-title")) {
+            element.onclick = () => { return 0; };
         }
-
-        position.y += velocity.y;
-        position.x += velocity.x;
-
-        if (position.y + elementHeight > window.innerHeight) {
-            position.y = window.innerHeight - elementHeight;
-            velocity.y = -velocity.y * restitution;
-        }
-
-        element.style.top = position.y + "px";
-        element.style.left = position.x + "px";
-
-        velocity.y += elementData.gravity;
-        velocity.x *= 0.999999999999999999999999999;
-
-        const angularVelocity = Math.min(Math.abs(velocity.y), maxAngularVelocity);
-        elementData.angle += (velocity.y > 0 ? -1 : 1) * angularVelocity;
-        elementData.angle = elementData.angle % 360;
-
-        if (elementData.angle < 0) {
-            elementData.angle += 360;
-        }
-        if (Math.abs(velocity.y) < Math.random() * 0.1) {
-            elementData.angle = Math.round(elementData.angle);
-        }
-
-        element.style.transform = `rotate(${angle}deg)`;
     }
-};
-
-const fall = () => {
-    for (let element of document.querySelectorAll("#results > *")) {
-        worldAddElement(element, element.offsetTop, element.offsetLeft, window.innerWidth - element.offsetWidth)
-    }
-
-    setInterval(physics, 1);
-
-    for (let element of queryAll(".link-title")) {
-    	element.onclick = () => {return 0;};
-    }
-}
 
 </script>
 
