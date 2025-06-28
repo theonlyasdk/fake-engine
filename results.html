@@ -7,11 +7,6 @@
     <title>Results - FakeEngine</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        h1 {
-            font-size: 3rem;
-            font-family: 'Liberation Serif', serif;
-        }
-
         body {
             padding: 0;
             margin: 0;
@@ -141,6 +136,15 @@
             flex: 1;
         }
 
+        .search-options-bar {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-top: .5rem;
+            gap: 1em;
+            align-items: center;
+        }
+
         @media (orientation: portrait) and (max-width: 768px) {
             .results-world {
                 display: flex;
@@ -177,7 +181,7 @@
     <div class="results-world">
         <div class="sidebar">
             <div class="vertical">
-                <h1><a href="index.html">FakeEngine</a></h1>
+                <h1 class="fake-engine-logo-small"><a href="index.html">FakeEngine</a></h1>
                 <hr>
                 <ul class="sidebar-list">
                     <li><a href="?i=1" id="sidebar-item-1">Everything</a></li>
@@ -197,7 +201,23 @@
                 </div>
                 <div class="search-details">
                     <small id="search-count">About 100,000,000 results (0.05 seconds)</small>
-                    <a href="#" id="search-count">Search options</small>
+                    <a href="#" id="search-options" onclick="toggleSearchOptions()">Search options</a>
+                </div>
+                <div class="search-options-bar" style="display: none;">
+                    <small><b>Search options</b></small>
+                    <select name="search-options" id="search-options-select">
+                        <option value="any-time">Any time</option>
+                        <option value="past-hour">Past hour</option>
+                        <option value="past-24-hours">Past 24 hours</option>
+                        <option value="past-week">Past week</option>
+                        <option value="past-month">Past month</option>
+                        <option value="past-year">Past year</option>
+                        <option value="custom">Custom range</option>
+                    </select>
+                    <select name="search-type" id="search-type-select">
+                        <option value="all">All results</option>
+                        <option value="verbatim">Verbatim</option>
+                    </select>
                 </div>
             </form>
         </div>
@@ -320,7 +340,7 @@
     const world = fromId("results");
     const elements = [];
     const restitution = 0.2;
-    const gravity = 0.0058;
+    const gravity = 0.0048;
     const maxAngularVelocity = 5;
 
     const worldAddElement = (element, top, left, clickHandler) => {
@@ -371,7 +391,7 @@
             element.style.left = position.x + "px";
 
             velocity.y += elementData.gravity;
-            velocity.x *= 0.999999999999999999999999999;
+            velocity.x *= 1;
 
             const angularVelocity = Math.min(Math.abs(velocity.y), maxAngularVelocity);
             elementData.angle += (velocity.y > 0 ? -1 : 1) * angularVelocity;
@@ -386,6 +406,7 @@
 
             element.style.transform = `rotate(${angle}deg)`;
         }
+        requestAnimationFrame(physics);
     };
 
     const fall = () => {
@@ -393,13 +414,29 @@
             worldAddElement(element, element.offsetTop, element.offsetLeft, window.innerWidth - element.offsetWidth)
         }
 
-        setInterval(physics, 1);
+        setInterval(physics, 25);
 
         for (let element of queryAll(".link-title")) {
             element.onclick = () => { return 0; };
         }
     }
 
+    // ------ UI ------
+    const toggleSearchOptions = () => {
+        const searchOptionsBar = query(".search-options-bar");
+        const searchOptionsSelect = query("#search-options-select");
+        const searchTypeSelect = query("#search-type-select");
+
+        if (searchOptionsBar.style.display === "none" || searchOptionsBar.style.display === "") {
+            searchOptionsBar.style.display = "flex";
+            searchOptionsSelect.style.display = "inline-block";
+            searchTypeSelect.style.display = "inline-block";
+        } else {
+            searchOptionsBar.style.display = "none";
+            searchOptionsSelect.style.display = "none";
+            searchTypeSelect.style.display = "none";
+        }
+    }
 </script>
 
 </html>

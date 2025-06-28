@@ -35,11 +35,6 @@
             align-items: center;
         }
 
-        .fake-engine>h1 {
-            font-size: 4em;
-            font-family: 'Liberation Serif', serif;
-        }
-
         .fake-engine-buttons>button {
             margin: .2em;
             font-size: 0.8em;
@@ -106,6 +101,7 @@
         .dialog-buttons>button {
             margin: .5em;
             flex: 1;
+            padding: .5em 1em;
         }
     </style>
 </head>
@@ -118,8 +114,14 @@
     </div>
     <dialog id="warning-dialog" class="dialog">
         <h2>Warning!</h2>
-        <p>FakeEngine is going to enter crazy mode. You might encounter <b>flashing images</b> and <b>moving
-                objects</b>. <i>Continue?</i></p>
+        <p>FakeEngine is going to enter crazy mode.
+            You might encounter <b>flashing images</b> and <b>moving objects</b>.
+            <i>Continue?</i>
+            <br>
+            <br>
+            <small><b>Tip:</b> To exit this mode, press ESC.</small>
+        </p>
+
         <div class="dialog-buttons">
             <button id="yes-button">Yes</button>
             <button id="no-button">No</button>
@@ -127,7 +129,7 @@
     </dialog>
     <div class="world" id="world">
         <div class="fake-engine" id="fake-engine">
-            <h1>FakeEngine</h1>
+            <h1 class="fake-engine-logo" id="fake-engine-logo">FakeEngine</h1>
             <form action="results.html" method="GET" class="fake-form">
                 <input type="text" placeholder="Search the fake web..." name="q" autocomplete="off">
                 <div class="fake-engine-buttons">
@@ -150,6 +152,21 @@
 <script src="lib/commons.js"></script>
 <!-- Logic for page -->
 <script>
+    let crazy_mode = false;
+
+    const fake_ass_quotes = [
+        "Fake it till you make it.",
+        "In a world of fake news, be a truth seeker.",
+        "Reality is often stranger than fiction.",
+        "The best lies are based on truth.",
+        "Imagination is the only weapon in the war against reality."
+    ];
+
+    const fake_engine_logo = fromId("fake-engine-logo")
+    const date_today = new Date();
+    const date_today_string = `${date_today.getDate()}/${date_today.getMonth() + 1}/${date_today.getFullYear()}`;
+    fake_engine_logo.title = `FakeEngine 2.0 (Today is ${date_today_string})\nToday's fake ass quote: ${fake_ass_quotes[Math.floor(Math.random() * fake_ass_quotes.length)]}`;
+
     const fake_engine = fromId("fake-engine")
     const fake_engine_counter_element = fromId("fake-engine-counter")
     const fake_engine_footer = fromId("fake-engine-footer")
@@ -193,6 +210,13 @@
         pyro.style.display = "block";
         warningDialog.style.display = "none";
         dialogOverlay.style.display = "none";
+        crazy_mode = true;
+        document.addEventListener("keydown", (event) => {
+            // set background color to random color on key press
+            if (crazy_mode) {
+                document.body.style.backgroundColor = `${randomColor()} !important`;
+            }
+        });
     });
 
     noButton.addEventListener("click", () => {
@@ -211,6 +235,14 @@
             pyro.style.display = "block";
         }
     }
+
+    function randomColor() {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        return `rgb(${r}, ${g}, ${b})`;
+    }
+
 
     checkNewYear();
 </script>

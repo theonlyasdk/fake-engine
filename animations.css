@@ -1,44 +1,129 @@
 @keyframes crazy {
-    0%, 100% {
-        transform: perspective(1000px) rotateX(0deg) rotateY(0deg) rotateZ(0deg) translate3d(0, 0, 0) scale(1);
-        background-color: #ff0000;
-        border: 5px solid white;
-        filter: hue-rotate(0deg) blur(0px) saturate(2);
+    /* 0%: Start in place, fully visible, rainbow gradient */
+    0% {
+        transform: perspective(1000px) translate3d(0, 0, 0) scale(1,1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        filter: blur(0px) opacity(1);
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        background-size: 400% 400%;
+        background-position: 0% 50%;
     }
-
+    /* 10%: Fly far away (shrink, fade, move back in Z), still rainbow */
+    10% {
+        transform: perspective(1000px) translate3d(0, 0, -2000px) scale(0.1,0.1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        filter: blur(8px) opacity(0.2);
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        background-size: 400% 400%;
+        background-position: 20% 50%;
+    }
+    /* 20%: Fly back in (grow, unblur, move to original), rainbow */
     20% {
-        transform: perspective(1000px) rotateX(360deg) rotateY(180deg) rotateZ(90deg) translate3d(100px, 50px, 200px) scale(1.5);
-        background-color: #00ff00;
-        border: 10px dotted black;
-        filter: hue-rotate(90deg) blur(3px) saturate(3);
+        transform: perspective(1000px) translate3d(0, 0, 0) scale(1,1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        filter: blur(0px) opacity(1);
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        background-size: 400% 400%;
+        background-position: 40% 50%;
     }
-
+    /* 30%: Squishy movement (stretch and squash), rainbow */
+    30% {
+        transform: perspective(1000px) translate3d(0, 0, 0) scale(1.5,0.7) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        filter: blur(0px) opacity(1);
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        background-size: 400% 400%;
+        background-position: 60% 50%;
+    }
+    35% {
+        transform: perspective(1000px) translate3d(0, 0, 0) scale(0.7,1.5) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        filter: blur(0px) opacity(1);
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        background-size: 400% 400%;
+        background-position: 70% 50%;
+    }
     40% {
-        transform: perspective(1000px) rotateX(720deg) rotateY(360deg) rotateZ(180deg) translate3d(-100px, -50px, -200px) scale(0.5);
-        background-color: #0000ff;
-        border: 15px groove gold;
-        filter: hue-rotate(180deg) blur(5px) saturate(4);
+        transform: perspective(1000px) translate3d(0, 0, 0) scale(1,1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        filter: blur(0px) opacity(1);
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        background-size: 400% 400%;
+        background-position: 80% 50%;
     }
-
+    /* 50%: Backflip (rotateX 360deg), rainbow */
+    50% {
+        transform: perspective(1000px) translate3d(0, 0, 0) scale(1,1) rotateX(360deg) rotateY(0deg) rotateZ(0deg);
+        filter: blur(0px) opacity(1);
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        background-size: 400% 400%;
+        background-position: 100% 50%;
+    }
+    /* 60%: Barrel roll (rotateZ 360deg), rainbow */
     60% {
-        transform: perspective(1000px) rotateX(1080deg) rotateY(540deg) rotateZ(270deg) translate3d(200px, -100px, 100px) scale(2);
-        background-color: #ff00ff;
-        border: 15px groove #00ffbf;
-        filter: hue-rotate(270deg) blur(4px) saturate(5);
+        transform: perspective(1000px) translate3d(0, 0, 0) scale(1,1) rotateX(360deg) rotateY(0deg) rotateZ(360deg);
+        filter: blur(0px) opacity(1);
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        background-size: 400% 400%;
+        background-position: 80% 50%;
     }
-
-    80% {
-        transform: perspective(1000px) rotateX(1440deg) rotateY(720deg) rotateZ(360deg) translate3d(-200px, 100px, -100px) scale(1.2);
-        background-color: #ffff00;
-        box-shadow: 0 0 50px #ff00ff;
-        filter: hue-rotate(360deg) blur(2px) saturate(3);
+    /* 70%: Blur out completely, gradient to white */
+    70% {
+        transform: perspective(1000px) translate3d(0, 0, 0) scale(1,1) rotateX(360deg) rotateY(0deg) rotateZ(360deg);
+        filter: blur(32px) opacity(1);
+        background: linear-gradient(90deg, rgba(255, 2, 2, 0.158), white 100%);
+        background-size: 400% 400%;
+        background-position: 50% 50%;
+    }
+    /* 85%: Start flying back in, still blurred, still white */
+    85% {
+        transform: perspective(1000px) translate3d(-100vw, 0, 0) scale(1,1) rotateX(360deg) rotateY(0deg) rotateZ(360deg);
+        filter: blur(32px) opacity(1);
+        background: linear-gradient(90deg, rgba(255, 2, 2, 0.158), white 100%);
+        background-size: 400% 400%;
+        background-position: 50% 50%;
+    }
+    /* 95%: Arrive back in place, unblur, rainbow returns */
+    95% {
+        transform: perspective(1000px) translate3d(0, 0, 0) scale(1,1) rotateX(360deg) rotateY(0deg) rotateZ(360deg);
+        filter: blur(0px) opacity(1);
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        background-size: 400% 400%;
+        background-position: 0% 50%;
+    }
+    /* 100%: Reset to original state, rainbow */
+    100% {
+        transform: perspective(1000px) translate3d(0, 0, 0) scale(1,1) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        filter: blur(0px) opacity(1);
+        background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet);
+        background-size: 400% 400%;
+        background-position: 0% 50%;
     }
 }
 
+/* Animate pixelation by scaling up and down with pixelated rendering */
 .go-crazy {
-    animation: crazy 4s infinite cubic-bezier(0.4, 0, 0.6, 1);
+    animation: crazy 10s infinite cubic-bezier(0.4, 0, 0.6, 1), pixelate-crazy 10s infinite cubic-bezier(0.4, 0, 0.6, 1);
     border-style: dashed;
     transition: all 100ms ease-out;
     perspective: 1000px;
     transform-style: preserve-3d;
+    image-rendering: pixelated;
+}
+
+@keyframes pixelate-crazy {
+    0%, 100% {
+        /* Normal scale */
+        scale: 1 1;
+    }
+    20% {
+        /* Pixelate more by scaling up */
+        scale: 2 2;
+    }
+    40% {
+        /* Even more pixelated */
+        scale: 4 4;
+    }
+    60% {
+        /* Back to normal */
+        scale: 1 1;
+    }
+    80% {
+        /* Pixelate again */
+        scale: 3 3;
+    }
 }
